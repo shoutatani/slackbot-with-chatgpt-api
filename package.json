@@ -1,0 +1,20 @@
+{
+  "name": "slackbot-with-chatgpt-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p .",
+    "build:watch": "tsc -w -p .",
+    "start": "npm run build && node dist/app.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.13.2",
+    "openai": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "typescript": "^5.1.6"
+  }
+}
