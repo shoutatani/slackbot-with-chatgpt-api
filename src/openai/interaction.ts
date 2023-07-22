@@ -10,7 +10,7 @@ export type OpenAIConversationType = OpenAIMessageType[];
 export const callChatGPT = async (conversation: OpenAIConversationType) => {
   try {
     const completion = await openAIClient.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k",
       messages: [
         { role: "system", content: "あなたはWebアプリケーション開発者です" },
         ...conversation,
@@ -18,7 +18,6 @@ export const callChatGPT = async (conversation: OpenAIConversationType) => {
     });
     return completion.data?.choices[0]?.message?.content || "";
   } catch (error: any) {
-    // Consider adjusting the error handling logic for your use case
     if (error.response) {
       console.error(error.response.status, error.response.data);
     } else {

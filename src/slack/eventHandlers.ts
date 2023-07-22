@@ -35,7 +35,6 @@ const retrieveConversations = async (
   }
   if (event.thread_ts) {
     const thread_messages = await app.client.conversations.replies({
-      token: process.env.SLACK_BOT_TOKEN,
       channel: event.channel,
       ts: event.thread_ts,
     });
