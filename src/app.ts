@@ -1,12 +1,16 @@
 import * as EventHandlers from "./slack";
-import { app } from "./slack";
+import { app, awsLambdaReceiver } from "./slack";
+import { Context, APIGatewayProxyCallback, APIGatewayEvent } from "aws-lambda";
 
 app.message(EventHandlers.messageEventHandler);
 
 app.event("app_mention", EventHandlers.appMentionEventHandler);
 
-(async () => {
-  await app.start();
-
-  console.log("⚡️ Bolt app is running!");
-})();
+export const handler = async (
+  event: APIGatewayEvent,
+  context: Context,
+  callback: APIGatewayProxyCallback
+) => {
+  const handler = await awsLambdaReceiver.start();
+  return handler(event, context, callback);
+};

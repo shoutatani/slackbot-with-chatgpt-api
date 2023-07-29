@@ -1,2 +1,2 @@
-export { app } from "./client";
+export { app, awsLambdaReceiver } from "./client";
 export * from "./eventHandlers";

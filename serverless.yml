@@ -1,0 +1,31 @@
+service: first-slack-bolt
+frameworkVersion: "3"
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'stg'}
+  region: ${opt:region, "ap-northeast-1"}
+  environment: ${self:custom.environment.${self:provider.stage}}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - ssm:GetParameter
+          Resource: arn:aws:ssm:${self:provider.region}:${aws:accountId}:parameter/${self:service}/${self:provider.stage}/*
+functions:
+  slack:
+    handler: dist/index.handler
+    events:
+      - http:
+          path: slack/events
+          method: post
+plugins:
+  - serverless-offline
+custom:
+  environment:
+    stg:
+      SLACK_SIGNING_SECRET: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_SIGNING_SECRET, env:SLACK_SIGNING_SECRET}
+      SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
+      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
+      SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
