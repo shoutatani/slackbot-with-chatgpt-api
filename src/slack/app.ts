@@ -4,7 +4,7 @@ import { KnownEventFromType, AppMentionEvent, Context } from "@slack/bolt";
 import { APIGatewayEvent, APIGatewayProxyCallback } from "aws-lambda";
 export { awsLambdaReceiver } from "./client";
 
-const ENV = process.env.ENV || "stg";
+const MESSAGE_HANDLER_NAME = process.env.MESSAGE_HANDLER_NAME || "stg";
 
 // DMでのメッセージや、@メンションがなくてもbot宛てのメッセージと思われるものに応答する
 const messageEventInvoker = async ({
@@ -14,7 +14,7 @@ const messageEventInvoker = async ({
 }) => {
   const client = new LambdaClient({ region: "ap-northeast-1" });
   const input = {
-    FunctionName: `slackbot-with-chatgpt-api-${ENV}-messageHandler`,
+    FunctionName: MESSAGE_HANDLER_NAME,
     InvocationType: "Event",
     Payload: JSON.stringify({ type: "message", event }),
   };
@@ -31,7 +31,7 @@ const appMentionEventInvoker = async ({
 }) => {
   const client = new LambdaClient({ region: "ap-northeast-1" });
   const input = {
-    FunctionName: `slackbot-with-chatgpt-api-${ENV}-messageHandler`,
+    FunctionName: MESSAGE_HANDLER_NAME,
     InvocationType: "Event",
     Payload: JSON.stringify({ type: "appMention", event }),
   };
