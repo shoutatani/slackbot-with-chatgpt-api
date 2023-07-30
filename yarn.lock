@@ -57,7 +57,7 @@
     "@aws-sdk/util-utf8-browser" "^3.0.0"
     tslib "^1.11.1"
 
-"@aws-sdk/client-lambda@^3.241.0":
+"@aws-sdk/client-lambda@^3.241.0", "@aws-sdk/client-lambda@^3.379.1":
   version "3.379.1"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-lambda/-/client-lambda-3.379.1.tgz#1e9ad7d3dfdbff034adce03c0e26ad2edff982b2"
   integrity sha512-hQCVmcEglNGvEQjTNvut+NDL0orp97GaVOg4h+ZHIjsdNds0jFqWsoItSzfUeSy66YiMNoPwTWfjTc8jZQr5xg==

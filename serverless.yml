@@ -1,4 +1,4 @@
-service: first-slack-bolt
+service: slackbot-with-chatgpt-api
 frameworkVersion: "3"
 provider:
   name: aws
@@ -6,6 +6,7 @@ provider:
   stage: ${opt:stage, 'stg'}
   region: ${opt:region, "ap-northeast-1"}
   environment: ${self:custom.environment.${self:provider.stage}}
+  timeout: 30
   iam:
     role:
       statements:
@@ -13,13 +14,22 @@ provider:
           Action:
             - ssm:GetParameter
           Resource: arn:aws:ssm:${self:provider.region}:${aws:accountId}:parameter/${self:service}/${self:provider.stage}/*
+        - Effect: "Allow"
+          Action:
+            - lambda:InvokeFunction
+          Resource: arn:aws:lambda:${self:provider.region}:${aws:accountId}:function:${self:service}-${self:provider.stage}-*
 functions:
-  slack:
-    handler: dist/index.handler
+  webhookHandler:
+    handler: dist/webhookHandler.handler
+    name: ${self:service}-${self:provider.stage}-webhookHandler
     events:
       - http:
           path: slack/events
           method: post
+  messageHandler:
+    handler: dist/messageHandler.handler
+    name: ${self:service}-${self:provider.stage}-messageHandler
+
 plugins:
   - serverless-offline
 custom:
@@ -29,3 +39,4 @@ custom:
       SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
       OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
       SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
+      ENV: stg

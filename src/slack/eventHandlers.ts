@@ -55,8 +55,7 @@ const retrieveConversations = async (
 };
 
 const reply = async (
-  event: AppMentionEvent | KnownEventFromType<"message">,
-  say: SayFn
+  event: AppMentionEvent | KnownEventFromType<"message">
 ) => {
   const createConversation = async (
     event: AppMentionEvent | KnownEventFromType<"message">
@@ -75,20 +74,17 @@ const reply = async (
 
   const responseText = await callChatGPT(conversation);
 
-  await say({
-    text: responseText,
+  await app.client.chat.postMessage({
+    channel: event.channel,
     thread_ts: event.ts,
+    text: responseText,
   });
 };
 
 export const messageEventHandler = async ({
   event,
-  say,
-  message,
 }: {
   event: KnownEventFromType<"message">;
-  say: SayFn;
-  message: KnownEventFromType<"message">;
 }) => {
   const isFirstMessageIncludeMentionToBot = async (
     event: KnownEventFromType<"message">
@@ -121,22 +117,20 @@ export const messageEventHandler = async ({
     (await isFirstMessageIncludeMentionToBot(event)) &&
     (await isCurrentMessageNotIncludeMentionToBot(event));
   if (shouldReply) {
-    reply(event, say);
+    await reply(event);
   }
 
   // DMでのメッセージに応答する
-  if (message.channel_type === "im" && message.subtype === undefined) {
-    reply(message, say);
+  if (event.channel_type === "im" && event.subtype === undefined) {
+    await reply(event);
   }
 };
 
 // 公開チャンネルでの@メンションに応答する
 export const appMentionEventHandler = async ({
   event,
-  say,
 }: {
   event: AppMentionEvent;
-  say: SayFn;
 }) => {
-  reply(event, say);
+  await reply(event);
 };
