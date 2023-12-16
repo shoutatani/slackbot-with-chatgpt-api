@@ -10,7 +10,7 @@ export type OpenAIConversationType = OpenAIMessageType[];
 export const callChatGPT = async (conversation: OpenAIConversationType) => {
   try {
     const completion = await openAIClient.createChatCompletion({
-      model: "gpt-3.5-turbo-16k",
+      model: "gpt-4",
       messages: [
         { role: "system", content: "あなたはWebアプリケーション開発者です" },
         ...conversation,
