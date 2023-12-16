@@ -4,7 +4,7 @@ import { KnownEventFromType, AppMentionEvent, Context } from "@slack/bolt";
 import { APIGatewayEvent, APIGatewayProxyCallback } from "aws-lambda";
 export { awsLambdaReceiver } from "./client";
 
-const MESSAGE_HANDLER_NAME = process.env.MESSAGE_HANDLER_NAME || "stg";
+const MESSAGE_HANDLER_NAME = process.env.MESSAGE_HANDLER_NAME || "";
 
 // DMでのメッセージや、@メンションがなくてもbot宛てのメッセージと思われるものに応答する
 const messageEventInvoker = async ({

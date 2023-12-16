@@ -34,10 +34,15 @@ plugins:
   - serverless-offline
 custom:
   environment:
+    prod:
+      SLACK_SIGNING_SECRET: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_SIGNING_SECRET, env:SLACK_SIGNING_SECRET}
+      SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
+      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
+      SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
+      MESSAGE_HANDLER_NAME: ${self:functions.messageHandler.name}
     stg:
       SLACK_SIGNING_SECRET: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_SIGNING_SECRET, env:SLACK_SIGNING_SECRET}
       SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
       OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
       SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
       MESSAGE_HANDLER_NAME: ${self:functions.messageHandler.name}
-      ENV: stg
