@@ -6,7 +6,7 @@ export { awsLambdaReceiver } from "./client";
 
 const MESSAGE_HANDLER_NAME = process.env.MESSAGE_HANDLER_NAME || "";
 
-// DMでのメッセージや、@メンションがなくてもbot宛てのメッセージと思われるものに応答する
+// Reply to messages for bot without @mention
 const messageEventInvoker = async ({
   event,
 }: {
@@ -19,11 +19,11 @@ const messageEventInvoker = async ({
     Payload: JSON.stringify({ type: "message", event }),
   };
   const command = new InvokeCommand(input);
-  console.log("********slack/app.messageEventInvoker called");
+  console.info("*** slack/app.messageEventInvoker called");
   await client.send(command);
 };
 
-// 公開チャンネルでの@メンションに応答する
+// Reply to messages for bot with @mention
 const appMentionEventInvoker = async ({
   event,
 }: {
@@ -36,7 +36,7 @@ const appMentionEventInvoker = async ({
     Payload: JSON.stringify({ type: "appMention", event }),
   };
   const command = new InvokeCommand(input);
-  console.log("********slack/app.appMentionEventInvoker called");
+  console.info("*** slack/app.appMentionEventInvoker called");
   await client.send(command);
 };
 
@@ -49,7 +49,7 @@ export const handler = async (
   context: Context,
   callback: APIGatewayProxyCallback
 ) => {
-  console.info("********webhookHandler called");
+  console.info("*** webhookHandler called");
   const handler = await awsLambdaReceiver.start();
   return handler(event, context, callback);
 };

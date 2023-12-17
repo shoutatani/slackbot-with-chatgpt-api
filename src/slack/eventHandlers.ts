@@ -108,29 +108,41 @@ export const messageEventHandler = async ({
     }
     return (
       conversations[conversations.length - 1].role === "user" &&
-      !conversations[conversations.length - 1].content.includes(`<@`)
+      !conversations[conversations.length - 1].content.includes(
+        `<@${process.env.SLACK_BOT_ID}>`
+      )
     );
   };
 
-  // slack botが参加しているチャンネルで、@メンションがなくてもスレッドの先頭のメッセージに@メンションがつく場合に応答する
-  const shouldReply =
+  // Reply to thread messages for bot in a public/private channel or in DM/multiparty DM
+  // (this case is when the user started to talk to the bot with @mention, and does not include @mention in the current message)
+  const shouldReplyToCurrentNotMentionedMessage =
     (await isFirstMessageIncludeMentionToBot(event)) &&
     (await isCurrentMessageNotIncludeMentionToBot(event));
-  if (shouldReply) {
-    await reply(event);
+  if (shouldReplyToCurrentNotMentionedMessage) {
+    console.log(
+      "*** message was replied in messageEventHandler, for inside thread message"
+    );
+    return await reply(event);
   }
 
-  // DMでのメッセージに応答する
-  if (event.channel_type === "im" && event.subtype === undefined) {
-    await reply(event);
+  // Reply to first messages in DM to the bot whether the user includes @mention or not
+  const shouldReplyToDM = event.channel_type === "im";
+  if (shouldReplyToDM) {
+    console.log("*** message was replied in messageEventHandler, for DM");
+    return await reply(event);
   }
+
+  console.log("*** message was not replied in messageEventHandler");
 };
 
-// 公開チャンネルでの@メンションに応答する
+// Reply to @mention messages to the bot
+// (this case is when the user is talking to the bot with @mention in a public/private channel or in multiparty DM)
 export const appMentionEventHandler = async ({
   event,
 }: {
   event: AppMentionEvent;
 }) => {
+  console.log("*** message was replied in appMentionEventHandler");
   await reply(event);
 };
