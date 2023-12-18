@@ -30,19 +30,21 @@ functions:
     handler: dist/messageHandler.handler
     name: ${self:service}-${self:provider.stage}-messageHandler
 
-plugins:
-  - serverless-offline
 custom:
   environment:
     prod:
       SLACK_SIGNING_SECRET: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_SIGNING_SECRET, env:SLACK_SIGNING_SECRET}
       SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
-      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
       SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
+      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
+      OPENAI_MODEL_NAME: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_MODEL_NAME, env:OPENAI_MODEL_NAME}
+      OPENAI_SYSTEM_PROMPT: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_SYSTEM_PROMPT, env:OPENAI_SYSTEM_PROMPT}
       MESSAGE_HANDLER_NAME: ${self:functions.messageHandler.name}
     stg:
       SLACK_SIGNING_SECRET: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_SIGNING_SECRET, env:SLACK_SIGNING_SECRET}
       SLACK_BOT_TOKEN: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_TOKEN, env:SLACK_BOT_TOKEN}
-      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
       SLACK_BOT_ID: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/SLACK_BOT_ID, env:SLACK_BOT_ID}
+      OPENAI_API_KEY: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_API_KEY, env:OPENAI_API_KEY}
+      OPENAI_MODEL_NAME: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_MODEL_NAME, env:OPENAI_MODEL_NAME}
+      OPENAI_SYSTEM_PROMPT: ${ssm(${self:provider.region}):/${self:service}/${self:provider.stage}/OPENAI_SYSTEM_PROMPT, env:OPENAI_SYSTEM_PROMPT}
       MESSAGE_HANDLER_NAME: ${self:functions.messageHandler.name}
