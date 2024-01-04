@@ -8,7 +8,9 @@
     "build": "tsc -p .",
     "build:watch": "tsc -w -p .",
     "deploy:prod": "npm run build && sls deploy --stage prod",
-    "deploy:stg": "npm run build && sls deploy --stage stg"
+    "deploy:stg": "npm run build && sls deploy --stage stg",
+    "remove:prod": "sls remove --stage prod",
+    "remove:stg": "sls remove --stage stg"
   },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.379.1",
