@@ -29,15 +29,15 @@ This is a SlackBot(SlackApp) that uses the ChatGPT Completions API to respond to
         - `im:history` (to read messages in DMs)
         - `mpim:history` (to read messages in group DMs)
    1. In Slack App Settings Page, Go to "Basic Information"
-      1. > "Install your app" > "Install App to Workspace"
+      1. "Install your app" > "Install App to Workspace"
          - Install the app to your workspace and permit the requested scopes.
-      1. > "Display Information"
+      1. "Display Information"
          - Customize display information of the app, for friendly user experience.
       1. "Save Changes"
    1. In Slack App Settings Page, Go to "App Home"
-      1. > "Your App's Presence in Slack"
+      1. "Your App's Presence in Slack"
          - Turn on "Always Show My Bot as Online" to be aware of the bot's presence.
-      1. > "Show Tabs"
+      1. "Show Tabs"
          - Add "Messages Tab" and "Allow users to send Slash commands and messages from the messages tab" to directly send messages to the bot.
 1. Clone this repo.
 1. In AWS Systems Manager Parameter Store, with stage name(`prod` or `stg`), create the following parameters (with SecureString type or String type if you don't want to use SecureString type. When you use SecureString type, you need to use KMS key(default key is OK) to encrypt the value.)
