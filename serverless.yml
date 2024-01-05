@@ -29,6 +29,7 @@ functions:
   messageHandler:
     handler: dist/messageHandler.handler
     name: ${self:service}-${self:provider.stage}-messageHandler
+    timeout: 120
 
 custom:
   environment:

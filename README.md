@@ -23,6 +23,7 @@ This is a SlackBot(SlackApp) that uses the ChatGPT Completions API to respond to
    1. Set App Name and select a workspace to install the app
    1. In Slack App Settings Page, Go to "Features" > "OAuth & Permissions" > "Scopes" > "Bot Token Scopes"
       - Add the following scopes
+        - `app_mention` (to reply to @mention messages to the bot)
         - `chat:write` (to send messages)
         - `channels:history` (to read messages in channels)
         - `groups:history` (to read messages in private channels)
@@ -73,6 +74,5 @@ This is a SlackBot(SlackApp) that uses the ChatGPT Completions API to respond to
       - `message.im` (to respond to messages in DMs)
       - `message.mpim` (to respond to messages in group DMs)
    1. "Save Changes"
-   1. Reinstall the app to your workspace, and permit the requested scopes. you can do it in "Basic Information" > "Install your app" > "Reinstall to Workspace"
 
 1. If you want to remove the Slack App from AWS, run `yarn remove:prod`
