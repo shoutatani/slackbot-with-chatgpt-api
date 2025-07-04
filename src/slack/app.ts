@@ -1,5 +1,9 @@
 import { app, awsLambdaReceiver } from "./client";
-import { LambdaClient, InvokeCommand } from "@aws-sdk/client-lambda";
+import {
+  LambdaClient,
+  InvokeCommand,
+  InvocationType,
+} from "@aws-sdk/client-lambda";
 import { KnownEventFromType, AppMentionEvent, Context } from "@slack/bolt";
 import { APIGatewayEvent, APIGatewayProxyCallback } from "aws-lambda";
 export { awsLambdaReceiver } from "./client";
@@ -15,7 +19,7 @@ const messageEventInvoker = async ({
   const client = new LambdaClient({ region: "ap-northeast-1" });
   const input = {
     FunctionName: MESSAGE_HANDLER_NAME,
-    InvocationType: "Event",
+    InvocationType: InvocationType.Event,
     Payload: JSON.stringify({ type: "message", event }),
   };
   const command = new InvokeCommand(input);
@@ -32,7 +36,7 @@ const appMentionEventInvoker = async ({
   const client = new LambdaClient({ region: "ap-northeast-1" });
   const input = {
     FunctionName: MESSAGE_HANDLER_NAME,
-    InvocationType: "Event",
+    InvocationType: InvocationType.Event,
     Payload: JSON.stringify({ type: "appMention", event }),
   };
   const command = new InvokeCommand(input);

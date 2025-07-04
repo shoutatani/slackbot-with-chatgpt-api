@@ -1,5 +1,5 @@
 import { AppMentionEvent, KnownEventFromType, SayFn } from "@slack/bolt";
-import { Message } from "@slack/web-api/dist/response/ConversationsRepliesResponse";
+import { MessageElement } from "@slack/web-api/dist/response/ConversationsRepliesResponse";
 import { app } from "./client";
 import { callChatGPT } from "../openai";
 import {
@@ -10,14 +10,14 @@ import {
 const retrieveConversations = async (
   event: AppMentionEvent | KnownEventFromType<"message">
 ): Promise<OpenAIConversationType> => {
-  const sortByTs = (a: Message, b: Message) => {
+  const sortByTs = (a: MessageElement, b: MessageElement) => {
     if (a.ts === undefined || b.ts === undefined) {
       return 0;
     }
     return Number(a.ts) - Number(b.ts);
   };
 
-  const mapByRole = (message: Message): OpenAIMessageType => {
+  const mapByRole = (message: MessageElement): OpenAIMessageType => {
     if (message.bot_profile) {
       return {
         role: "assistant",
