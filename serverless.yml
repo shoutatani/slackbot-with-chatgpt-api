@@ -1,8 +1,10 @@
 service: slackbot-with-chatgpt-api
-frameworkVersion: "3"
+frameworkVersion: "4"
+build:
+  esbuild: false
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs24.x
   stage: ${opt:stage, 'stg'}
   region: ${opt:region, "ap-northeast-1"}
   environment: ${self:custom.environment.${self:provider.stage}}

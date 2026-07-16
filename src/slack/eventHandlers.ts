@@ -1,5 +1,6 @@
-import { AppMentionEvent, KnownEventFromType, SayFn } from "@slack/bolt";
-import { MessageElement } from "@slack/web-api/dist/response/ConversationsRepliesResponse";
+import { KnownEventFromType, SayFn } from "@slack/bolt";
+import { AppMentionEvent } from "@slack/types";
+import { MessageElement } from "@slack/web-api/dist/types/response/ConversationsRepliesResponse";
 import { app } from "./client";
 import { callChatGPT } from "../openai";
 import {

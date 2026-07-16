@@ -1,10 +1,6 @@
-import { AppMentionEvent, KnownEventFromType } from "@slack/bolt";
-import {
-  APIGatewayProxyHandler,
-  APIGatewayEvent,
-  Context,
-  APIGatewayProxyCallback,
-} from "aws-lambda";
+import { KnownEventFromType } from "@slack/bolt";
+import { AppMentionEvent } from "@slack/types";
+import { APIGatewayProxyHandler, APIGatewayEvent } from "aws-lambda";
 import {
   appMentionEventHandler,
   messageEventHandler,
@@ -21,9 +17,7 @@ type PayloadType =
     };
 
 export const handler: APIGatewayProxyHandler = async (
-  event: APIGatewayEvent,
-  _context: Context,
-  _callback: APIGatewayProxyCallback
+  event: APIGatewayEvent
 ) => {
   if (event.body === null) {
     return {

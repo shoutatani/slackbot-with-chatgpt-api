@@ -52,15 +52,13 @@ This is a SlackBot(SlackApp) that uses the ChatGPT Completions API to respond to
 
 1. Deploy the Lambda function with Serverless Framework
 
-   1. Install Node.js LTS
+   1. Install Node.js 24 (LTS)
       - install Node.js LTS: https://nodejs.org/en/download/ or use Node Version Manager ([nvm](https://github.com/nvm-sh/nvm), [n](https://github.com/tj/n), etc.)
-   1. Install Serverless Framework
-      - `npm install -g serverless` ref. https://www.serverless.com/framework/docs/getting-started
    1. cd to the repo directory
-   1. run `yarn install` to install dependencies
-   1. run `yarn deploy:prod` to deploy the Lambda function to AWS
-      - If you use specific AWS profile and not default profile, run `AWS_SDK_LOAD_CONFIG=1 yarn deploy:prod --aws-profile <profile name>`
-      - If you want to deploy to staging environment, run `yarn deploy:stg` instead of `yarn deploy:prod`. of course, you need to create parameters in SSM Parameter Store with stage name `stg` instead of `prod`.
+   1. run `npm install` to install dependencies (Serverless Framework v4 is installed as a devDependency)
+   1. run `npm run deploy:prod` to deploy the Lambda function to AWS
+      - If you use specific AWS profile and not default profile, run `AWS_SDK_LOAD_CONFIG=1 npm run deploy:prod -- --aws-profile <profile name>`
+      - If you want to deploy to staging environment, run `npm run deploy:stg` instead of `npm run deploy:prod`. of course, you need to create parameters in SSM Parameter Store with stage name `stg` instead of `prod`.
    1. After the deployment, you can get the API Gateway URL of the Lambda function. (e.g. `https://xxxxxxxxxx.execute-api.ap-northeast-1.amazonaws.com/prod/slack/events`)
 
 1. In Slack App Settings Page, Go to "Event Subscriptions"
@@ -75,4 +73,4 @@ This is a SlackBot(SlackApp) that uses the ChatGPT Completions API to respond to
       - `message.mpim` (to respond to messages in group DMs)
    1. "Save Changes"
 
-1. If you want to remove the Slack App from AWS, run `yarn remove:prod`
+1. If you want to remove the Slack App from AWS, run `npm run remove:prod`
